@@ -1,6 +1,7 @@
 var http = require('http');
 var users = require('./users.js')
 http.createServer(function(req, res){
+	var path = req.url.split("/").splice(1,2);
 	res.writeHead(200, {content : 'application/json'});
 
 	if(path[0] == "get"){
@@ -25,3 +26,6 @@ http.createServer(function(req, res){
 			res.end("not a good path!")
 	}
 }).listen(1337,'127.0.0.1');
+
+//cesar@adaltas.com [ECE]GROUP
+// Repo ece-nodejs

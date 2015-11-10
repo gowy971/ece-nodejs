@@ -1,0 +1,14 @@
+{
+	"name" : "asynchronous server technologies",
+	"description" : "class @ ece",
+	"version" :"0.0.1",
+	"dependencies" : {
+		"mymodule" : "1.2.y",
+
+	}
+	"author"{
+		"name" : cesar,
+		github.com/cesarBere"
+		},
+	"website" : "adaltas.com"
+}

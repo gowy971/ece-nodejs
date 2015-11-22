@@ -1,14 +1,13 @@
 {
-	"name" : "asynchronous server technologies",
+	"name" : "nodeJScourse",
 	"description" : "class @ ece",
 	"version" :"0.0.1",
 	"dependencies" : {
-		"mymodule" : "1.2.y",
-
-	}
-	"author"{
-		"name" : cesar,
-		github.com/cesarBere"
+		"mymodule" : "1.2.y"
+	},
+	"author" : {
+		"name" : "cesar",
+		"url" : "github.com/cesarBere"
 		},
 	"website" : "adaltas.com"
 }

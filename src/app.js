@@ -10,7 +10,7 @@ http.createServer(function(req, res){
 						info : "C'est le user",
 						user : user
 					}
-			res.end(JSON.stringify(response));
+			res.end(JSON.stringify(response).toString());
 		})
 	} else if (path[0] == "save"){
 		users.save(path[1], function(user){
@@ -18,11 +18,10 @@ http.createServer(function(req, res){
 				info : "C'est le user savded",
 				user : user
 			}
-			res.end(JSON.stringify(response));
+			res.end(JSON.stringify(response).toString());
 		})
 	}else {
-		
-			res.end(404,  {content : 'text/plain'});
+			res.writeHead(404,  {content : 'text/plain'});
 			res.end("not a good path!")
 	}
 }).listen(1337,'127.0.0.1');

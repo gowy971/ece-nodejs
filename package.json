@@ -2,9 +2,10 @@
 	"name" : "nodeJScourse",
 	"description" : "class @ ece",
 	"version" :"0.0.1",
-	"dependencies" : {
-		"mymodule" : "1.2.y"
-	},
+	"devDependencies": {
+    "mocha": "*",
+    "should": ">= 0.0.1"
+  },
 	"author" : {
 		"name" : "cesar",
 		"url" : "github.com/cesarBere"

@@ -1,14 +1,25 @@
 {
-	"name" : "nodeJScourse",
-	"description" : "class @ ece",
-	"version" :"0.0.1",
-	"devDependencies": {
-    "mocha": "*",
-    "should": ">= 0.0.1"
+  "name": "expressCourse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.jade",
+  "scripts": {
+    "test": "test",
+    "start": "nodemon src/app.coffee"
   },
-	"author" : {
-		"name" : "cesar",
-		"url" : "github.com/cesarBere"
-		},
-	"website" : "adaltas.com"
+  "author": "gregory",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "level-ws": "0.0.0",
+    "leveldown": "^1.4.2",
+    "levelup": "^1.3.1",
+    "nodemon": "^1.8.1",
+    "prebuild": "^2.7.1"
+  },
+  "devDependencies": {
+    "jstransformer-coffee-script": "^1.0.0"
+  }
 }

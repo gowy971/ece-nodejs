@@ -11,7 +11,7 @@ module.exports =
     rs = db.createReadStream()
     rs.on "data",(metric)->
       myKey = metric.key.split ":"
-      myMetric = {timestamp : parseInt(myKey[2]), value:parseInt(metric.value)}
+      myMetric = {x : parseInt(myKey[2]), y:parseInt(metric.value)}
       metrics.push myMetric
     return metrics
   ###

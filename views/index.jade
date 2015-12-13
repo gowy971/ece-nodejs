@@ -8,49 +8,51 @@ block head
   script(type="text/javascript" src="js/d3.min.js" charset="utf-8")
   script
     :coffee-script
-      draw = (dataset) ->
-        larg = 500
-        haut = 100
-        barPadding =1;
-        lb =((larg - nbb) / nbb)
-        nbb = dataset.length
-        ch =(haut / d3.max dataset, (d)->
-          return d.valeur)
-        svg = d3.select("body").append("svg").attr("width", larg).attr("height", haut)
-        svg.selectAll("rect")
-        .data(dataset)
-        .enter()
-        .append("rect")
-        .attr "x", (d,i)->
-          return i*(20+barPadding)
-        
-        .attr "y", (d) ->
-          return (100-d.valeur * 2)
-        .attr("width",20)
-        .attr "height", (d)->
-           return(d.valeur * 2)
-        .attr("fill", "teal")  
-      d3.json '/metrics.json',draw        
-      
+
 block content
   div.container
-    button(type="button" class="btn btn-success" id="show-metrics") Push me!
+    button(type="button" class="btn btn-success" id="show-metrics") Visualiser les metriques
     div#content
+      svg(id="visualisation" width="1000" height="500")
     
   p hello
   
-      
-
-      
-
   script
     :coffee-script
-  script
-    :coffee-script
+      InitChart = (barData)->
+        vis = d3.select('#visualisation')
+        WIDTH = 1000
+        HEIGHT = 500
+        MARGINS = {top: 20, right: 20,bottom: 20,left: 50}
+        xRange = d3.scale.ordinal().rangeRoundBands([MARGINS.left, WIDTH - MARGINS.right], 0.1).domain(barData.map (d) ->
+          return d.x;
+        )
+        yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0,d3.max barData, (d) ->
+            return d.y;
+        ])
+
+        xAxis = d3.svg.axis().scale(xRange).tickSize(5).tickSubdivide(true)
+        yAxis = d3.svg.axis().scale(yRange).tickSize(5).orient("left").tickSubdivide(true)
+        vis.append('svg:g').attr('class', 'x axis').attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')').call(xAxis)
+        vis.append('svg:g').attr('class', 'y axis').attr('transform', 'translate(' + (MARGINS.left) + ',0)').call(yAxis)
+
+        vis.selectAll('rect').data(barData).enter().append('rect').attr 'x', (d) ->
+            return xRange(d.x)
+        .attr 'y', (d) ->
+            return yRange(d.y)
+        .attr('width', xRange.rangeBand())
+        .attr 'height', (d) ->
+          return ((HEIGHT - MARGINS.bottom) - yRange(d.y));
+        .attr('fill', 'grey')
+        .on 'mouseover',(d)->
+            d3.select(this)
+            .attr('fill','blue');
+        .on 'mouseout', (d) ->
+          d3.select(this)
+          .attr 'fill','grey'
+
       $('#show-metrics').click (e) ->
         metrics=[]
         e.preventDefault()
-        $.getJSON '/metrics.json', (data) ->
-          c= ""
-          for metric in data
-            c+= "<p>timestamp = : #{metric.timestamp}<br/> value:#{metric.value}"
+        d3.json '/metrics.json', InitChart
+        

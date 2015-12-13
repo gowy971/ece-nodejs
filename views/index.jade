@@ -1,11 +1,37 @@
 extend layout
 
 block head
+  meta(charset="utf-8")
   link(rel="stylesheet" href="css/bootstrap.min.css")
   script(type="text/javascript" src="js/jquery-1.11.3.min.js" charset="utf-8")
   script(type="text/javascript" src="js/bootstrap.min.js" charset="utf-8")
   script(type="text/javascript" src="js/d3.min.js" charset="utf-8")
-
+  script
+    :coffee-script
+      draw = (dataset) ->
+        larg = 500
+        haut = 100
+        barPadding =1;
+        lb =((larg - nbb) / nbb)
+        nbb = dataset.length
+        ch =(haut / d3.max dataset, (d)->
+          return d.valeur)
+        svg = d3.select("body").append("svg").attr("width", larg).attr("height", haut)
+        svg.selectAll("rect")
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr "x", (d,i)->
+          return i*(20+barPadding)
+        
+        .attr "y", (d) ->
+          return (100-d.valeur * 2)
+        .attr("width",20)
+        .attr "height", (d)->
+           return(d.valeur * 2)
+        .attr("fill", "teal")  
+      d3.json '/metrics.json',draw        
+      
 block content
   div.container
     button(type="button" class="btn btn-success" id="show-metrics") Push me!
@@ -13,12 +39,18 @@ block content
     
   p hello
   
+      
+
+      
+
+  script
+    :coffee-script
   script
     :coffee-script
       $('#show-metrics').click (e) ->
+        metrics=[]
         e.preventDefault()
         $.getJSON '/metrics.json', (data) ->
           c= ""
           for metric in data
             c+= "<p>timestamp = : #{metric.timestamp}<br/> value:#{metric.value}"
-          $('#content').html(c)

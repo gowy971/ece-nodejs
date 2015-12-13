@@ -1,0 +1,22 @@
+block head
+  link(rel="stylesheet" href="css/bootstrap.min.css")
+  script(type="text/javascript" src="js/jquery-1.11.3.min.js" charset="utf-8")
+  script(type="text/javascript" src="js/bootstrap.min.js" charset="utf-8")
+  script(type="text/javascript" src="js/d3.min.js" charset="utf-8")
+  
+block content
+  #form
+  p Please login to your account
+  hr
+  form#login(action='/login', method="post")
+    .form-group
+      label Username
+      input(type='text', name="username")
+    .form-group
+      label Password
+      input(type='password', name="password")
+    button#login_submit.btn.btn-primary.btn-block(type='submit')
+      i.icon-ok.icon-white
+      | Connect
+    hr
+    button.btn.btn-success.btn-block(type='button', href='/signup')

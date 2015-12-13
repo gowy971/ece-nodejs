@@ -1,4 +1,5 @@
 db = require('./db') "#{__dirname}/../db/metrics"
+metrics =[]
 module.exports =
   ###
   'get()'
@@ -6,26 +7,13 @@ module.exports =
   Returns some metrics
   ###
   get: () ->
-   return [
-     timestamp: new Date('2015-12-01 10:30 UTC').getTime(),
-     value: 26
-   ,
-     timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
-     value: 23
-   ,
-     timestamp: new Date('2015-12-01 10:40 UTC').getTime(),
-     value: 20
-   ,
-     timestamp: new Date('2015-12-01 10:45 UTC').getTime(),
-     value: 19
-   ,
-     timestamp: new Date('2015-12-01 10:50 UTC').getTime(),
-     value: 18
-   ,
-     timestamp: new Date('2015-12-01 10:55 UTC').getTime(),
-     value: 20
-   ]
-
+    myMetric= null
+    rs = db.createReadStream()
+    rs.on "data",(metric)->
+      myKey = metric.key.split ":"
+      myMetric = {timestamp : parseInt(myKey[2]), value:parseInt(metric.value)}
+      metrics.push myMetric
+    return metrics
   ###
   'save(id,metrics,callback)'
   -------------------

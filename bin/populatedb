@@ -2,11 +2,11 @@
 
 exec = require('child_process').exec
 
-exec "rm -rf #{__dirname}/../db/metrics && mkdir #{__dirname}/../db/metrics", (err, stdout, stderr) ->
+exec "rm -rf #{__dirname}/../db/metrics && mkdir #{__dirname}/../db/metrics && rm -rf #{__dirname}/../db/user && mkdir #{__dirname}/../db/user", (err, stdout, stderr) ->
   if err then throw err
 
   metrics = require '../src/metrics'
-
+  user = require '../src/user'
   console.log 'DB deleted'
   console.log 'Creating metrics'
 
@@ -55,3 +55,5 @@ exec "rm -rf #{__dirname}/../db/metrics && mkdir #{__dirname}/../db/metrics", (e
     console.log "Saving batch #{index + 1}"
     metrics.save index + 1, metric, (err) ->
       return next err if err
+
+  user.save 'gco','mdp','gregory','coquerel@ece.fr'

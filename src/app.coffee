@@ -48,8 +48,7 @@ app.post '/login', (req, res) ->
 app.post '/signup', (req, res) ->
   user.save req.body.username, req.body.password, req.body.name, req.body.email, (err) ->
     res.redirect('/signup') if err
-    else
-      res.redirect '/login'
+    res.redirect '/login'
 
 app.get '/logout', (req, res) ->
   delete req.session.loggedIn

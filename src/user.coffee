@@ -3,6 +3,7 @@ module.exports =
   get: (username, callback) ->
     rs = db.createReadStream
       gte: "user:#{username}"
+      lte: "user:#{username}"
     user =null
     rs.on 'data', (data) ->
       key = data.key.split ":"
@@ -15,8 +16,14 @@ module.exports =
 
   save: (username, password, name, email, callback) ->
     ws = db.createWriteStream()
+    ws.on 'error', callback
+    ws.on 'close', callback
     ws.write key: "user:#{username}", value: "user:#{password}:#{name}:#{email}"
     ws.end()
+
+  remove : (username, callback)->
+    toDel = "user:#{username}"
+    db.del(username, callback)
 
   # TODO: delete a user by username
 # We won't do update

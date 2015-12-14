@@ -11,6 +11,7 @@ block head
 
 block content
   div.container
+    button.btn.btn-danger(href='/logout' onClick='document.location.href="/logout"') Logout
     button(type="button" class="btn btn-success" id="show-metrics") Visualiser les metriques
     div#content
       svg(id="visualisation" width="1000" height="500")

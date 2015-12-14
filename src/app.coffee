@@ -31,8 +31,12 @@ app.get '/metrics.json', (req,res) ->
 app.get '/login', (req, res) ->
   res.render 'login'
 
+app.get '/signup', (req, res) ->
+  res.render 'signup'
+
 app.post '/login', (req, res) ->
   user.get req.body.username, (err, data) ->
+    console.log data
     return next err if err
     unless req.body.password == data.password
       res.redirect('/login')
@@ -40,6 +44,12 @@ app.post '/login', (req, res) ->
       req.session.loggedIn = true
       req.session.username = data.username
       res.redirect '/'
+
+app.post '/signup', (req, res) ->
+  user.save req.body.username, req.body.password, req.body.name, req.body.email, (err) ->
+    res.redirect('/signup') if err
+    else
+      res.redirect '/login'
 
 app.get '/logout', (req, res) ->
   delete req.session.loggedIn

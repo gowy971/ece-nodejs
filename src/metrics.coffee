@@ -1,19 +1,21 @@
 db = require('./db') "#{__dirname}/../db/metrics"
-metrics =[]
 module.exports =
   ###
   'get()'
   ----
   Returns some metrics
   ###
-  get: () ->
+  get: (callback) ->
+    data =[]
     myMetric= null
     rs = db.createReadStream()
+    rs.on "error", callback
     rs.on "data",(metric)->
       myKey = metric.key.split ":"
       myMetric = {x : parseInt(myKey[2]), y:parseInt(metric.value)}
-      metrics.push myMetric
-    return metrics
+      data.push myMetric
+    rs.on "close", ->
+      callback null, data
   ###
   'save(id,metrics,callback)'
   -------------------

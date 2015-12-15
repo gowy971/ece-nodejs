@@ -26,7 +26,10 @@ app.get '/', authCheck, (req, res) ->
   res.render 'index', name: req.session.username
 
 app.get '/metrics.json', (req,res) ->
-  res.status(200).json  metrics.get()
+   metrics.get (err, data)->
+     if err then res.status(500).json err
+     else
+       res.status(200).json data
 
 app.get '/login', (req, res) ->
   res.render 'login'

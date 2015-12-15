@@ -5,19 +5,28 @@ block head
   link(rel="stylesheet" href="css/bootstrap.min.css")
   script(type="text/javascript" src="js/jquery-1.11.3.min.js" charset="utf-8")
   script(type="text/javascript" src="js/bootstrap.min.js" charset="utf-8")
+  style
+    :stylus
+      .form-signin
+        max-width 375px
+        padding 15px
+        margin 0 auto
+        .form-control
+          position relative
+          height auto
+          padding 10px
+          font-size 16px
+        #login_submit
+          margin-top 5px
   
 block content
-  #form
-  p Please login to your account
-  hr
-  form#login(action='/login', method="post").form-horizontal
-    .form-group
-      label.col-sm-2.control-label Username
-      input(type='text', name="username")
-    .form-group
-      label.col-sm-2.control-label Password
-      input(type='password', name="password")
-    .form-group
-      .col-sm-offset-2.col-sm-12
-        button#login_submit.btn.btn-default(type='submit') Sign in
-        a.btn.btn-default(role='button', href='/signup') Sign up
+  .container
+    #form
+    form#login(class='form-signin' action='/login' method='post').form-horizontal
+      h2.form-signin-heading Please sign in
+      input(class='form-control' autofocus='' required='' placeholder='Username' type='text' name="username")
+      input(class='form-control' required='' placeholder='Password' type='password' name="password")
+      button#login_submit.btn-lg.btn-success.btn-block(type='submit') Sign in
+    .form-signin
+      h2 Or sign up
+      button#redirect.btn-lg.btn-primary.btn-block(role='button' href='/signup' onclick='window.location.href= "/signup"') Sign up

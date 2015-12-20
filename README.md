@@ -11,12 +11,12 @@ npm i --save body-parser coffee-script express express-session jade level level-
 
 Then to create the initial data, run the script
 ```
-sudo coffee bin/populatedb
+coffee bin/populatedb
 ```
 
 The next step is to launch the application, with the following instruction
 ```
-sudo coffee src/app.coffee
+coffee src/app.coffee
 ```
 
 Then you can connect to the port 1337 of your localhost and use the application.

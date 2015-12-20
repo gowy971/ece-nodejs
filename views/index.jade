@@ -16,22 +16,22 @@ block content
         svg(id="visualisation" width="1000" height="500")
       div#form-metric
         button(id="affiche-form" type="button" class="btn btn-default") Insérer des métriques
-        form(id="insert-metric" style="display:none" name="metrics" action="/" method="post")
+        form(id="insert-metric" style="display:none" name="metrics" action="/insert" method="post")
           div.form-group
             label timestamp
-              input(type="number" name="timestamp[]" id="timestamp1" required) 
+              input(type="number" name="timestamp1" id="timestamp1" required) 
             label Valeur de la métrique
-              input(type="number" name="value[]" id="value1" required) 
+              input(type="number" name="value1" id="value1" required) 
           div.form-group
             label timestamp
-              input(type="number" name="timestamp[]" id="timestamp2" required) 
+              input(type="number" name="timestamp2" id="timestamp2" required) 
             label Valeur de la métrique
-              input(type="number" name="value[]" id="value2" required)
+              input(type="number" name="value2" id="value2" required)
           div.form-group
             label timestamp
-              input(type="number" name="timestamp[]" id="timestamp3" required) 
+              input(type="number" name="timestamp3" id="timestamp3" required) 
             label Valeur de la métrique
-              input(type="number" name="value[]" id="value3" required)
+              input(type="number" name="value3" id="value3" required)
           button(type="submit" id="submit-metrics" class="btn btn-default") Enregistrer
   p hello
   
@@ -78,7 +78,14 @@ block content
       $('#affiche-form').click ()->
         $('#insert-metric').fadeToggle()
         
-      $('#submit-metrics').submit (e)->
+      $('#insert-metric').submit (e)->
         e.preventDefault
-        $.getJSON '/metrics.json'
-        
+        $.ajax
+          dataType : 'json'
+          url : $(this).attr 'action'
+          data : $(this).serialize()
+          error : ()->
+            alert 'une erreur s\'est produite'
+          success: ()->
+            alert 'enregistré avec succès!'
+          

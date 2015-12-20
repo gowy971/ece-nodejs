@@ -25,19 +25,32 @@ authCheck = (req, res, next) ->
 app.get '/', authCheck, (req, res) ->
   res.render 'index', name: req.session.username
 
-app.post '/', (req,res)->
-  metric ={}
-  timestamps = req.body.timestamps
-  values = req.body.values
-  console.log req.body
+app.post '/insert', (req,res)->
+  met =
+  [
+    {
+      timestamp: req.body.timestamp1,
+      value: req.body.value1
+    },
+    {
+      timestamp: req.body.timestamp2,
+      value: req.body.value2,
+    },
+    {
+      timestamp:req.body.timestamp3,
+      value: req.body.value2
+    }
+  ]
+  metrics.save req.session.username, met, (err)->
+    if err
+      res.status(500)
+    else
+      res.status(200)
+
 
 app.get '/metrics.json', (req,res) ->
    metrics.get req.session.username, (err, metric)->
        res.status(200).json metric
-
-app.post '/insert', (req,res) ->
-  username = req.session.username
-  metric = {}
 
 app.get '/login', (req, res) ->
   res.render 'login'

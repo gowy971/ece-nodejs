@@ -1,27 +1,34 @@
 extend layout
+
 block head
   meta(charset="utf-8")
   link(rel="stylesheet" href="css/bootstrap.min.css")
   script(type="text/javascript" src="js/jquery-1.11.3.min.js" charset="utf-8")
   script(type="text/javascript" src="js/bootstrap.min.js" charset="utf-8")
+  style
+    :stylus
+      .form-signup
+        max-width 375px
+        padding 15px
+        margin 0 auto
+        .form-control
+          position relative
+          height auto
+          padding 10px
+          font-size 16px
+        #signup_submit
+          margin-top 5px
 
 block content
-  #form
-  p Insert your information to sign up
-  hr
-  form#login(action='/signup', method="post").form-horizontal
-    .form-group
-      label.col-sm-2.control-label Username
-      input(type='text', name="username")
-    .form-group
-      label.col-sm-2.control-label Password
-      input(type='password', name="password")
-    .form-group
-      label.col-sm-2.control-label E-mail
-      input(type='email', name="email")
-    .form-group
-      label.col-sm-2.control-label Name
-      input(type='text', name="name")
-    .form-group
-      .col-sm-offset-2.col-sm-12
-        button#login_submit.btn.btn-default(type='submit') Signup
+  .container
+    #form
+    form#login(class='form-signup' action='/signup' method='post').form-horizontal
+      h2.form-signin-heading Please sign up
+      input(class='form-control' autofocus='' required='' placeholder='Username' type='text' name="username")
+      input(class='form-control' required='' placeholder='Password' type='password' name="password")
+      input(class='form-control' required='' placeholder='Email' type='email' name="email")
+      input(class='form-control' required='' placeholder='Name' type='text' name="name")
+      button#signup_submit.btn-lg.btn-success.btn-block(type='submit') Sign up
+    .form-signup
+      h2 Or sign in
+      button#redirect.btn-lg.btn-primary.btn-block(role='button' href='/login' onclick='window.location.href= "/login"') Sign in

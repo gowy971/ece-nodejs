@@ -6,35 +6,44 @@ block head
   script(type="text/javascript" src="js/jquery-1.11.3.min.js" charset="utf-8")
   script(type="text/javascript" src="js/bootstrap.min.js" charset="utf-8")
   script(type="text/javascript" src="js/d3.min.js" charset="utf-8")
-  
+  style
+    :stylus
+      .tab
+        margin-top 10px
+      #visualisation
+        width 100%
+
 block content
-  div.container
-    button.btn.btn-danger(href='/logout' onClick='document.location.href="/logout"') Logout
-    button(type="button" class="btn btn-success" id="show-metrics") Visualiser les metriques
-    div#content
-      div#chart(style="display:none")
-        svg(id="visualisation" width="1000" height="500")
-      div#form-metric
-        button(id="affiche-form" type="button" class="btn btn-default") Insérer des métriques
-        form(id="insert-metric" style="display:none" name="metrics" action="/insert" method="post")
-          div.form-group
-            label timestamp
-              input(type="number" name="timestamp1" id="timestamp1" required) 
-            label Valeur de la métrique
-              input(type="number" name="value1" id="value1" required) 
-          div.form-group
-            label timestamp
-              input(type="number" name="timestamp2" id="timestamp2" required) 
-            label Valeur de la métrique
-              input(type="number" name="value2" id="value2" required)
-          div.form-group
-            label timestamp
-              input(type="number" name="timestamp3" id="timestamp3" required) 
-            label Valeur de la métrique
-              input(type="number" name="value3" id="value3" required)
-          button(type="submit" id="submit-metrics" class="btn btn-default") Enregistrer
-  p hello
-  
+  .container
+    .row
+      #content
+        #chart(style="display:none")
+          svg(id="visualisation" width="1000" height="500")
+        #form-metric
+          button(id="affiche-form" type="button" class="btn btn-default") Insérer des métriques
+          form(id="insert-metric" style="display:none" name="metrics" action="/insert" method="post")
+            .form-group
+              label timestamp
+                input(type="number" name="timestamp1" id="timestamp1" required)
+              label Valeur de la métrique
+                input(type="number" name="value1" id="value1" required)
+            .form-group
+              label timestamp
+                input(type="number" name="timestamp2" id="timestamp2" required)
+              label Valeur de la métrique
+                input(type="number" name="value2" id="value2" required)
+            .form-group
+              label timestamp
+                input(type="number" name="timestamp3" id="timestamp3" required)
+              label Valeur de la métrique
+                input(type="number" name="value3" id="value3" required)
+            button(type="submit" id="submit-metrics" class="btn btn-default") Enregistrez
+
+      .tab
+        button.btn.btn-danger(href='/logout' onClick='document.location.href="/logout"') Logout
+        button(type="button" class="btn btn-success" id="show-metrics") Visualiser les metriques
+
+
   script
     :coffee-script
       InitChart = (barData)->
@@ -74,10 +83,10 @@ block content
         e.preventDefault()
         $('#chart').show()
         d3.json '/metrics.json', InitChart
-        
+
       $('#affiche-form').click ()->
         $('#insert-metric').fadeToggle()
-        
+
       $('#insert-metric').submit (e)->
         e.preventDefault
         $.ajax
@@ -88,4 +97,14 @@ block content
             alert 'une erreur s\'est produite'
           success: ()->
             alert 'enregistré avec succès!'
-          
+            
+      width = $("#visualisation").width()
+      aspect = 500 / 1000
+      
+      svg = d3.select("#visualisation").append("svg")
+      svg.attr("preserveAspectRatio", "xMidYMid").attr("viewBox", "0 0 1000 500").attr("width", width).attr("height", width * aspect)
+            
+      $(window).resize ()->
+        width = $("#visualisation").width()
+        svg.attr("width", width)
+        svg.attr("height", width * aspect)

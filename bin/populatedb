@@ -2,58 +2,144 @@
 
 exec = require('child_process').exec
 
-exec "rm -rf #{__dirname}/../db/metrics && mkdir #{__dirname}/../db/metrics && rm -rf #{__dirname}/../db/user && mkdir #{__dirname}/../db/user", (err, stdout, stderr) ->
-  if err then throw err
+#exec "rm -rf #{__dirname}/../db/metrics && mkdir #{__dirname}/../db/metrics", (err, stdout, stderr) ->
+#  if err then throw err
 
-  metrics = require '../src/metrics'
-  user = require '../src/user'
-  console.log 'DB deleted'
-  console.log 'Creating metrics'
+#exec "rm -rf #{__dirname}/../db/user && mkdir #{__dirname}/../db/user", (err, stdout, stderr) ->
+#  if err then throw err
 
-  met = [
-    [
-      timestamp: new Date('2015-12-01 10:30 UTC').getTime(),
-      value: 26
-    ,
-      timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
-      value: 23
-    ,
-      timestamp: new Date('2015-12-01 10:40 UTC').getTime(),
-      value: 20
-    ,
-      timestamp: new Date('2015-12-01 10:45 UTC').getTime(),
-      value: 19
-    ,
-      timestamp: new Date('2015-12-01 10:50 UTC').getTime(),
-      value: 18
-    ,
-      timestamp: new Date('2015-12-01 10:55 UTC').getTime(),
-      value: 20
-    ],
+# Require after rm and mkdir or DB is deleted once in callback
+metrics = require '../src/metrics'
+user = require '../src/user'
+console.log 'DB deleted'
+console.log 'Creating metrics'
+
+# met = [
+#   {
+#     username: "test1",
+#     [
+#       {
+#       timestamp: new Date('2015-12-01 10:30 UTC').getTime(),
+#       value: 26
+#       },
+#       {
+#       timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
+#       value: 23
+#       }
+#     ]
+#   }
+# ]
+
+met = [
+  {
+    user: "test"
+    m:
       [
-        timestamp: new Date('2015-11-01 10:30 UTC').getTime(),
-        value: 26
-      ,
-        timestamp: new Date('2015-11-01 10:35 UTC').getTime(),
-        value: 23
-      ,
-        timestamp: new Date('2015-11-01 10:40 UTC').getTime(),
-        value: 20
-      ,
-        timestamp: new Date('2015-11-01 10:45 UTC').getTime(),
-        value: 19
-      ,
-        timestamp: new Date('2015-11-01 10:50 UTC').getTime(),
-        value: 18
-      ,
-        timestamp: new Date('2015-11-01 10:55 UTC').getTime(),
-        value: 20
+          {
+            timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
+            value: 14
+          },
+          {
+            timestamp: new Date('2015-12-01 10:40 UTC').getTime(),
+            value: 16
+          },
+          {
+            timestamp: new Date('2015-12-01 10:45 UTC').getTime(),
+            value: 17
+          }
       ]
-  ]
+  },
+  {
+    user: "admin"
+    m:
+      [
+          {
+            timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
+            value: 24
+          },
+          {
+            timestamp: new Date('2015-12-01 10:40 UTC').getTime(),
+            value: 26
+          },
+          {
+            timestamp: new Date('2015-12-01 10:45 UTC').getTime(),
+            value: 27
+          }
+      ]
+  },
+  {
+    user: "gco"
+    m:
+      [
+          {
+            timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
+            value: 34
+          },
+          {
+            timestamp: new Date('2015-12-01 10:40 UTC').getTime(),
+            value: 36
+          },
+          {
+            timestamp: new Date('2015-12-01 10:45 UTC').getTime(),
+            value: 37
+          }
+      ]
+  },
+  {
+    user: "jarab"
+    m:
+      [
+          {
+            timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
+            value: 44
+          },
+          {
+            timestamp: new Date('2015-12-01 10:40 UTC').getTime(),
+            value: 46
+          },
+          {
+            timestamp: new Date('2015-12-01 10:45 UTC').getTime(),
+            value: 47
+          }
+      ]
+  }
+]
+for metric, index in met
+  console.log "Saving batch #{index + 1}"
+  metrics.save metric.user,metric.m, (err) ->
+    return err if err
 
-  for metric, index in met
-    console.log "Saving batch #{index + 1}"
-    metrics.save index + 1, metric, (err) ->
-      return next err if err
+console.log 'Creating users'
 
-  user.save 'gco','mdp','gregory','coquerel@ece.fr'
+users = [
+  {
+    username: "test",
+    username: "test",
+    name: "test",
+    email: "test@ece.fr"
+  },
+  {
+    username: "admin",
+    password: "admin",
+    name: "admin",
+    email: "admin@ece.fr"
+  },
+  {
+    username: "gco",
+    password: "mdp",
+    name: "gco",
+    email: "coquerel@ece.fr"
+  },
+  {
+    username: "jarab",
+    password: "jarab",
+    name: "jarab",
+    email: "jarab@ece.fr"
+  }
+]
+
+#(username, password, name, email, callback)
+for u, index in users
+  console.log "Saving users #{index + 1}"
+  user.save u.username,u.password,  u.name, u.email, (err) ->
+    return err if err

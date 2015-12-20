@@ -5,17 +5,16 @@ module.exports =
   ----
   Returns some metrics
   ###
-  get: (callback) ->
-    data =[]
-    myMetric= null
-    rs = db.createReadStream()
-    rs.on "error", callback
-    rs.on "data",(metric)->
-      myKey = metric.key.split ":"
-      myMetric = {x : parseInt(myKey[2]), y:parseInt(metric.value)}
-      data.push myMetric
-    rs.on "close", ->
-      callback null, data
+  get: (username, callback) ->
+    metric = []
+    rs = db.createReadStream
+      gte: "metrics:#{username}:1"
+    rs.on 'data', (data) ->
+      value = data.value.split ":"
+      metric.push(x: parseInt(value[1]), y: parseInt(value[2]))
+    rs.on 'error', callback
+    rs.on 'close', ->
+      callback null, metric
   ###
   'save(id,metrics,callback)'
   -------------------
@@ -23,11 +22,17 @@ module.exports =
   Parameters :
   'id' : an integer
   ###
-  save: (id, metrics, callback) ->
+
+  save: (user, m, callback)->
     ws = db.createWriteStream()
     ws.on 'error', callback
     ws.on 'close', callback
-    for m in metrics
-      {timestamp, value} = m
-      ws.write key: "metric:#{id}:#{timestamp}", value: value
+    for metric, index in m
+      {timestamp, value} = metric
+      ws.write key: "metrics:#{user}:#{index+1}", value: "metrics:#{timestamp}:#{value}"
+    console.log "Batch saved !"
     ws.end()
+
+  remove: (username, id , callback)->
+    toDel = "metrics:#{username}:#{id}"
+    db.del toDel, callback

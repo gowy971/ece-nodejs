@@ -12,8 +12,27 @@ block content
     button.btn.btn-danger(href='/logout' onClick='document.location.href="/logout"') Logout
     button(type="button" class="btn btn-success" id="show-metrics") Visualiser les metriques
     div#content
-      svg(id="visualisation" width="1000" height="500")
-    
+      div#chart(style="display:none")
+        svg(id="visualisation" width="1000" height="500")
+      div#form-metric
+        button(id="affiche-form" type="button" class="btn btn-default") Insérer des métriques
+        form(id="insert-metric" style="display:none" name="metrics" action="/" method="post")
+          div.form-group
+            label timestamp
+              input(type="number" name="timestamp[]" id="timestamp1" required) 
+            label Valeur de la métrique
+              input(type="number" name="value[]" id="value1" required) 
+          div.form-group
+            label timestamp
+              input(type="number" name="timestamp[]" id="timestamp2" required) 
+            label Valeur de la métrique
+              input(type="number" name="value[]" id="value2" required)
+          div.form-group
+            label timestamp
+              input(type="number" name="timestamp[]" id="timestamp3" required) 
+            label Valeur de la métrique
+              input(type="number" name="value[]" id="value3" required)
+          button(type="submit" id="submit-metrics" class="btn btn-default") Enregistrer
   p hello
   
   script
@@ -53,5 +72,13 @@ block content
       $('#show-metrics').click (e) ->
         metrics=[]
         e.preventDefault()
+        $('#chart').show()
         d3.json '/metrics.json', InitChart
+        
+      $('#affiche-form').click ()->
+        $('#insert-metric').fadeToggle()
+        
+      $('#submit-metrics').submit (e)->
+        e.preventDefault
+        $.getJSON '/metrics.json'
         

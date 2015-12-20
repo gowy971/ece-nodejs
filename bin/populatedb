@@ -2,33 +2,10 @@
 
 exec = require('child_process').exec
 
-#exec "rm -rf #{__dirname}/../db/metrics && mkdir #{__dirname}/../db/metrics", (err, stdout, stderr) ->
-#  if err then throw err
-
-#exec "rm -rf #{__dirname}/../db/user && mkdir #{__dirname}/../db/user", (err, stdout, stderr) ->
-#  if err then throw err
-
-# Require after rm and mkdir or DB is deleted once in callback
 metrics = require '../src/metrics'
 user = require '../src/user'
 console.log 'DB deleted'
 console.log 'Creating metrics'
-
-# met = [
-#   {
-#     username: "test1",
-#     [
-#       {
-#       timestamp: new Date('2015-12-01 10:30 UTC').getTime(),
-#       value: 26
-#       },
-#       {
-#       timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
-#       value: 23
-#       }
-#     ]
-#   }
-# ]
 
 met = [
   {
@@ -54,15 +31,15 @@ met = [
     m:
       [
           {
-            timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
+            timestamp: new Date('2015-12-20 10:35 UTC').getTime(),
             value: 24
           },
           {
-            timestamp: new Date('2015-12-01 10:40 UTC').getTime(),
+            timestamp: new Date('2015-12-20 10:40 UTC').getTime(),
             value: 26
           },
           {
-            timestamp: new Date('2015-12-01 10:45 UTC').getTime(),
+            timestamp: new Date('2015-12-20 10:45 UTC').getTime(),
             value: 27
           }
       ]
@@ -72,15 +49,15 @@ met = [
     m:
       [
           {
-            timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
+            timestamp: new Date('2015-12-20 10:35 UTC').getTime(),
             value: 34
           },
           {
-            timestamp: new Date('2015-12-01 10:40 UTC').getTime(),
+            timestamp: new Date('2015-12-20 10:40 UTC').getTime(),
             value: 36
           },
           {
-            timestamp: new Date('2015-12-01 10:45 UTC').getTime(),
+            timestamp: new Date('2015-12-20 10:45 UTC').getTime(),
             value: 37
           }
       ]
@@ -90,15 +67,15 @@ met = [
     m:
       [
           {
-            timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
+            timestamp: new Date('2015-12-20 10:35 UTC').getTime(),
             value: 44
           },
           {
-            timestamp: new Date('2015-12-01 10:40 UTC').getTime(),
+            timestamp: new Date('2015-12-20 10:40 UTC').getTime(),
             value: 46
           },
           {
-            timestamp: new Date('2015-12-01 10:45 UTC').getTime(),
+            timestamp: new Date('2015-12-20 10:45 UTC').getTime(),
             value: 47
           }
       ]
@@ -114,7 +91,7 @@ console.log 'Creating users'
 users = [
   {
     username: "test",
-    username: "test",
+    password: "test",
     name: "test",
     email: "test@ece.fr"
   },

@@ -37,7 +37,7 @@ block content
                 input(type="number" name="timestamp3" id="timestamp3" required)
               label Valeur de la métrique
                 input(type="number" name="value3" id="value3" required)
-            button(type="submit" id="submit-metrics" class="btn btn-default") Enregistrez
+            button(type="submit" id="submit-metrics" class="btn btn-default") Valider
 
       .tab
         button.btn.btn-danger(href='/logout' onClick='document.location.href="/logout"') Logout
@@ -81,7 +81,7 @@ block content
       $('#show-metrics').click (e) ->
         metrics=[]
         e.preventDefault()
-        $('#chart').show()
+        $('#chart').fadeToggle()
         d3.json '/metrics.json', InitChart
 
       $('#affiche-form').click ()->
@@ -97,7 +97,7 @@ block content
             alert 'une erreur s\'est produite'
           success: ()->
             alert 'enregistré avec succès!'
-            
+      ###      
       width = $("#visualisation").width()
       aspect = 500 / 1000
       
@@ -108,3 +108,4 @@ block content
         width = $("#visualisation").width()
         svg.attr("width", width)
         svg.attr("height", width * aspect)
+      ###

@@ -1,0 +1,19 @@
+# Start up
+
+To use the app, download the git repository :
+```
+git clone https://github.com/gowy971/ece-nodejs.git
+```
+Since the node-modules are not downloaded, you might need to download them.
+
+Then to create the initial data, run the script
+```
+sudo coffee bin/populatedb
+```
+
+The next step is to launch the application, with the following instruction
+```
+sudo coffee src/app.coffee
+```
+
+Then you can connect to the port 1337 of your localhost and use the application.
